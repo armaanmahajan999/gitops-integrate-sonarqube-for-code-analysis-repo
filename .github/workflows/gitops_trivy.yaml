@@ -1,4 +1,4 @@
-name: "Run Trivy Scan"
+name: "Run Container Scan on Super Mario Docker Image with Quality Gate"
 
 on:
   push:
@@ -25,12 +25,17 @@ jobs:
           echo "Pulling Docker image version: ${{ env.VERSION }}"
           docker pull armaan491/argocd:${{ env.VERSION }}
           docker tag armaan491/argocd:${{ env.VERSION }} supermariolatestdockerimage:${{ env.VERSION }}
-          docker save -o /github/workspace/supermariolatestdockerimage.tar supermariolatestdockerimage:${{ env.VERSION }}
-      
+          docker images  # Verify the tagged image
+
+      - name: Save Docker image to tarball
+        run: |
+          mkdir -p ./supermariodocker  # Ensure the directory exists
+          docker save -o ./supermariodocker/supermariolatestdockerimage.tar supermariolatestdockerimage:${{ env.VERSION }}
+
       - name: Run Trivy vulnerability scanner on the tarball
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@master  # Using @master instead of a specific version tag
         with:
-          input: /github/workspace/supermariolatestdockerimage.tar
+          input: ./supermariodocker/supermariolatestdockerimage.tar
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
 
@@ -38,4 +43,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: trivy-report
-          path: /github/workspace/supermariolatestdockerimage.tar
+          path: ./supermariodocker/supermariolatestdockerimage.tar
