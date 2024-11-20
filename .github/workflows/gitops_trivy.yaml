@@ -1,30 +1,33 @@
 name: "Run Container Scan on Super Mario Docker Image with Quality Gate"
- 
+
 on:
   push:
     branches:
       - main
- 
+
 env:
   VERSION: $(( $(cat version.txt) + 1 ))
-  
+
 jobs:
   
   run_container_image_scan_on_supermario_docker_image:
-    runs-on: ubuntu-latest	
- 
+    runs-on: ubuntu-latest
+  
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
- 
+
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
         
       - name: Get Docker Image from Docker Hub
         run: |
           docker pull armaan491/argocd:${{ env.VERSION }}
-          docker save -o supermariolatestdockerimage.tar docker.io/armaan491/argocd:${{ env.VERSION }}
-     
+          docker save -o /github/workspace/supermariolatestdockerimage.tar docker.io/armaan491/argocd:${{ env.VERSION }}
+      
+      - name: Verify that the Docker image tarball exists
+        run: ls -al /github/workspace/supermariolatestdockerimage.tar
+      
       - name: Run Trivy vulnerability scanner in tarball mode
         uses: aquasecurity/trivy-action@master
         with:
