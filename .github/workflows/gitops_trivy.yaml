@@ -23,7 +23,7 @@ jobs:
       - name: Get Docker Image from Docker Hub
         run: |
           docker pull armaan491/argocd:${{ env.VERSION }}
-          docker save -o /github/workspace/supermariolatestdockerimage.tar docker.io/armaan491/argocd:${{ env.VERSION }}
+          docker save -o supermariolatestdockerimage.tar docker.io/armaan491/argocd:${{ env.VERSION }}
       
       - name: Verify that the Docker image tarball exists
         run: ls -al /github/workspace/supermariolatestdockerimage.tar
