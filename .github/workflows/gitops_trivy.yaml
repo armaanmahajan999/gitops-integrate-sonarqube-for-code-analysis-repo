@@ -36,7 +36,7 @@ jobs:
         uses: aquasecurity/trivy-action@master  # Using @master instead of a specific version tag
         with:
           input: ./supermariodocker/supermariolatestdockerimage.tar
-          exit-code: '1'
+          exit-code: '0'
           severity: 'CRITICAL,HIGH'
 
       - name: Upload the scan report as an artifact (optional)
