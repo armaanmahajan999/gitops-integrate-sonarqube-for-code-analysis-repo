@@ -1,4 +1,4 @@
-name: "Run SAST Scan on SuperMario Game Project"
+name: "Run SAST Scan on SuperMario Game Project yes"
 
 on:
   push:
