@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+env:
+  VERSION: $(( $(cat version.txt) + 1 ))
+
+
 jobs:
 
   build_push_supermario_docker_image:
@@ -19,5 +23,5 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t docker.io/armaan491/argocd:1 .
-          docker push docker.io/armaan491/argocd:1
+          docker build -t docker.io/armaan491/argocd:${{ env.VERSION }} .
+          docker push docker.io/armaan491/argocd:${{ env.VERSION }}
