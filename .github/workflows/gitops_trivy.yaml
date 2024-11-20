@@ -1,4 +1,4 @@
-name: "Run Container Scan on Super Mario Docker Image with Trivy"
+name: "Run Container Scan on Super Mario Docker Image with Quality Gate"
  
 on:
   push:
@@ -22,12 +22,12 @@ jobs:
         
       - name: Get Docker Image from Docker Hub
         run: |
-          docker pull docker.io/armaan491/argocd:${{ env.VERSION }}
-          docker save -o argocd.tar docker.io/armaan491/argocd:${{ env.VERSION }}
+          docker pull docker pull armaan491/argocd:${{ env.VERSION }}
+          docker save -o supermariolatestdockerimage.tar docker.io/armaan491/argocd:${{ env.VERSION }}
      
       - name: Run Trivy vulnerability scanner in tarball mode
         uses: aquasecurity/trivy-action@master
         with:
-          input: /github/workspace/argocd.tar
+          input: /github/workspace/supermariolatestdockerimage.tar
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
