@@ -28,7 +28,7 @@ jobs:
           docker save -o /github/workspace/supermariolatestdockerimage.tar supermariolatestdockerimage:${{ env.VERSION }}
       
       - name: Run Trivy vulnerability scanner on the tarball
-        uses: aquasecurity/trivy-action@v0.6.0
+        uses: aquasecurity/trivy-action@master
         with:
           input: /github/workspace/supermariolatestdockerimage.tar
           exit-code: '1'
