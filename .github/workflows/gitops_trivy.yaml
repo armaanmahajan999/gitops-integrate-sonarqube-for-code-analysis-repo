@@ -25,9 +25,6 @@ jobs:
           docker pull armaan491/argocd:${{ env.VERSION }}
           docker save -o supermariolatestdockerimage.tar docker.io/armaan491/argocd:${{ env.VERSION }}
       
-      - name: Verify that the Docker image tarball exists
-        run: ls -al /github/workspace/supermariolatestdockerimage.tar
-      
       - name: Run Trivy vulnerability scanner in tarball mode
         uses: aquasecurity/trivy-action@master
         with:
